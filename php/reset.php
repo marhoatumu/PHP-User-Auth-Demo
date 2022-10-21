@@ -14,7 +14,6 @@ function resetPassword($email, $password){
     $form_data = array($email, $password);
     $handle = fopen($filename, "r");
     $output = fopen($filename2, "w");
-    $success = true;
 
     while (($data = fgetcsv($handle)) !== FALSE) {
         if ($data[1] == $email) {
