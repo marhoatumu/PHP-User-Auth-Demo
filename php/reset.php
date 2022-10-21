@@ -10,31 +10,26 @@ function resetPassword($email, $password){
     //open file and check if the username exist inside
     //if it does, replace the password
     $filename = "../storage/users.csv";
+    $filename2 = "../storage/users2.csv";
     $form_data = array($email, $password);
-    $handle = fopen($filename, "rw");
+    $handle = fopen($filename, "r");
+    $output = fopen($filename2, "w");
     $success = true;
 
     while (($data = fgetcsv($handle)) !== FALSE) {
         if ($data[1] == $email) {
             $username = $data[0];
-            array_push($form_data, $username);
-            fputcsv($handle, $form_data);
-            //print_r($data);
-            $success = true;
-            break;
+            $form_data = array($username, $email, $password);
+            continue;
         }
-        
+        fputcsv($output, $data);
     }
     fclose($handle);
     
-    if ($success) {
-        // they registration ok
-        echo "User Successfully registered". "<br>";  
-    }
-    else {
-        echo "Sorry, this user doesn't exists. Please try again.";
-    }
+    fputcsv($output, $form_data);
+    fclose($output);
+    
+    rename("../storage/users2.csv","../storage/users.csv");
+
+    header("location: ../forms/login.html");
 }
-
-
-

@@ -15,23 +15,9 @@ function registerUser($username, $email, $password){
     $handle = fopen($filename, "a+");
     $success = true;
 
-    while (($data = fgetcsv($handle)) !== FALSE) {
-        if ($data[0] !== $username || $data[1] !== $email) {
-            fputcsv($handle, $form_data);
-            //print_r($data);
-            $success = true;
-            break;
-        }
-        else {
-            echo "Sorry, this user already exists. Please try again.";
-        }
-    }
+    fputcsv($handle, $form_data);
     fclose($handle);
-    
-    if ($success) {
-        // they registration ok
-        echo "User Successfully registered". "<br>";  
-    }
+    echo "User Successfully registered". "<br>";
 }
 
 ?>
